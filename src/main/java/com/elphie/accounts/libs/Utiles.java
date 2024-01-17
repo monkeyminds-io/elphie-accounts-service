@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.elphie.accounts.models.Account;
+import com.elphie.accounts.models.Transaction;
 
 
 // =============================================================================
@@ -67,6 +68,22 @@ public class Utiles {
         if(account.getType() == null) errors.add("Account Type cannot be NULL.");
         if(account.getBalance() == null) errors.add("Account Balance cannot be NULL.");
         if(account.getCurrency() == null) errors.add("Account Currency cannot be NULL.");
+
+        // Return isValid value
+        return errors;
+    }
+
+    public static ArrayList<String> validateTransaction(Transaction transaction) {
+
+        // Local variable errors
+        ArrayList<String> errors = new ArrayList<>();
+
+        // Validate NOT NULL Policy violations
+        if(transaction.getUserId() == null) errors.add("User ID cannot be NULL.");
+        if(transaction.getAccountId() == null) errors.add("Account ID cannot be NULL.");
+        if(transaction.getReference() == null) errors.add("Reference cannot be NULL.");
+        if(transaction.getAmount() == null) errors.add("Amount cannot be NULL.");
+        if(transaction.getDate() == null) errors.add("Date cannot be NULL.");
 
         // Return isValid value
         return errors;

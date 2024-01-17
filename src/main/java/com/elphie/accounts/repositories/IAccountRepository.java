@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import com.elphie.accounts.models.Account;
 
 import java.util.List;
-import java.util.Optional;
 
 // =============================================================================
 // Interface
@@ -24,6 +23,5 @@ import java.util.Optional;
 @Repository
 public interface IAccountRepository extends JpaRepository<Account, Long> {
     
-    Optional<Account> findByUserId(Long userId);
     List<Account> findByUserIdAndNameContaining(Long userId, String query);
 }

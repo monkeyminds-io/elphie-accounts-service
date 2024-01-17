@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.elphie.accounts.definitions.UpdateRequest;
+import com.elphie.accounts.definitions.AccountRequest;
 import com.elphie.accounts.libs.Utiles;
 import com.elphie.accounts.models.Account;
 import com.elphie.accounts.repositories.IAccountRepository;
@@ -113,9 +113,7 @@ public class AccountsController {
      * @return ResponseEntity<Object> -> either SUCCESS Response 200 ok | ERROR Response 400 Bad Request | ERROR 500 Internal Server Error
      */
     @GetMapping(value="/get", params={"id"})
-    public ResponseEntity<Object> get(
-        @RequestParam(name="id") Long id
-    ) {
+    public ResponseEntity<Object> get(@RequestParam(name="id") Long id) {
         try {
             // Find or Throw Exception
             Optional<Account> account = accountRepository.findById(id);
@@ -210,7 +208,7 @@ public class AccountsController {
      * @return ResponseEntity<Object> -> either SUCCESS Response 200 ok | ERROR Response 400 Bad Request | ERROR 500 Internal Server Error
      */
     @PutMapping("/{id}/update")
-    public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody UpdateRequest request) {
+    public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody AccountRequest request) {
         
         // Validate new password is not null
         if(request == null) {
@@ -233,6 +231,13 @@ public class AccountsController {
                     "Account with id " + id + " not found."
                 );
             }
+
+            // Set new data
+            account.get().setUserId(Long.parseLong(request.getUserId()));
+            account.get().setName(request.getName());
+            account.get().setType(request.getType());
+            account.get().setBalance(Integer.parseInt(request.getBalance()));
+            account.get().setCurrency(request.getCurrency());
             
             // Set new Updated On date
             account.get().setUpdatedOn(new Timestamp(System.currentTimeMillis()));

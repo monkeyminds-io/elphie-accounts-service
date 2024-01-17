@@ -40,6 +40,9 @@ public class Account {
     @Column(name = "currency")
     private String currency;
 
+    @Column(name = "plaidId")
+    private String plaidId;
+
     @Column(name = "createdOn")
     private Timestamp createdOn;
 
@@ -108,6 +111,14 @@ public class Account {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getPlaidId() {
+        return plaidId;
+    }
+
+    public void setPlaidId(String plaidId) {
+        this.plaidId = plaidId;
     }
 
     public Timestamp getCreatedOn() {

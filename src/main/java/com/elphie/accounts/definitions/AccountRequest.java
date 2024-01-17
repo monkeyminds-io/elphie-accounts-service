@@ -1,7 +1,7 @@
 package com.elphie.accounts.definitions;
 
 @Data
-public class UpdateRequest {
+public class AccountRequest {
     
     // PROPERTIES ////////////////
     private String userId;
