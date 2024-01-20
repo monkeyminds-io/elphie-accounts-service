@@ -176,6 +176,8 @@ public class AccountsController {
                 );
             }
 
+            System.out.println(filteredAccounts.toString());
+
             // Return SUCCESS Response 200 OK
             return Utiles.generateResponse(
                 HttpStatus.OK,
@@ -233,11 +235,10 @@ public class AccountsController {
             }
 
             // Set new data
-            account.get().setUserId(Long.parseLong(request.getUserId()));
             account.get().setName(request.getName());
             account.get().setType(request.getType());
-            account.get().setBalance(Integer.parseInt(request.getBalance()));
-            account.get().setCurrency(request.getCurrency());
+            account.get().setIban(request.getIban());
+            account.get().setBalance(Double.parseDouble(request.getBalance()));
             
             // Set new Updated On date
             account.get().setUpdatedOn(new Timestamp(System.currentTimeMillis()));

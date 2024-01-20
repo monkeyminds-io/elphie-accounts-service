@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 // =============================================================================
 @CrossOrigin(origins = "http://localhost:8000")
 @RestController
-@RequestMapping("/accounts/transactions/")
+@RequestMapping("/transactions/")
 public class TransactionController {
 
     // PROPERTIES ////////////////
@@ -175,11 +175,48 @@ public class TransactionController {
                 return Utiles.generateResponse(
                     HttpStatus.NOT_FOUND, 
                     HttpStatus.NOT_FOUND.getReasonPhrase(), 
-                    "There seams to not be any matches in the DB..."
+                    "There seams there isn't matches in the DB..."
                 );
             }
 
-            // Return SUCCESS Response 200 OK
+            // Else Return SUCCESS Response 200 OK
+            return Utiles.generateResponse(
+                HttpStatus.OK,
+                "Success getting Transactions.", 
+                filteredTransactions
+            ); 
+
+        } catch (Exception error) {
+
+            // Return ERROR Response 500 Internal Server Error
+            return Utiles.generateResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR,  
+                error.getMessage(), 
+                "Failed to get Transactions from DB."
+            );
+        }
+    }
+
+    @GetMapping(value="/get", params={"userId", "start", "end"})
+    public ResponseEntity<Object> getBetweenDates(
+        @RequestParam(name="userId") Long userId,
+        @RequestParam(name="start") String start,
+        @RequestParam(name="end") String end
+    ) {
+        try {
+            // Find Transactions List
+            List<Transaction> filteredTransactions = transactionRepository.findByUserIdAndDateBetween(userId, new SimpleDateFormat("yyyy-MM-dd").parse(start), new SimpleDateFormat("yyyy-MM-dd").parse(end));
+
+            // If Transactions List is empty return 404 ERROR
+            if(filteredTransactions.size() == 0) {
+                return Utiles.generateResponse(
+                    HttpStatus.NOT_FOUND, 
+                    HttpStatus.NOT_FOUND.getReasonPhrase(), 
+                    null
+                );
+            }
+
+            // Else Return SUCCESS Response 200 OK
             return Utiles.generateResponse(
                 HttpStatus.OK,
                 "Success getting Transactions.", 
@@ -237,12 +274,14 @@ public class TransactionController {
                     "Transaction with id " + id + " not found."
                 );
             }
+
+            System.out.println(request.getReference());
             
             // Set new data
-            transaction.get().setUserId(Long.parseLong(request.getUserId()));
             transaction.get().setAccountId(Long.parseLong(request.getAccountId()));
             transaction.get().setReference(request.getReference());
             transaction.get().setAmount(Double.parseDouble(request.getAmount()));
+            transaction.get().setType(request.getType());
 
             // Parsing String date from request to SQL Date Type
             Date date = new SimpleDateFormat("yyy-MM-dd").parse(request.getDate());
@@ -257,7 +296,7 @@ public class TransactionController {
             // Return SUCCESS Response 200 OK
             return Utiles.generateResponse(
                 HttpStatus.OK, 
-                "Success updating Account.", 
+                "Success updating Transaction.", 
                 updatedTransaction
             );
 
@@ -267,7 +306,7 @@ public class TransactionController {
             return Utiles.generateResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR,  
                 error.getMessage(), 
-                "Failed to update Account in DB."
+                "Failed to update Transaction in DB."
             );
         }
         
@@ -289,7 +328,7 @@ public class TransactionController {
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
 
-        // Validate new password is not null
+        // Validate ID is not null
         if(id == null) {
             return Utiles.generateResponse(
                 HttpStatus.BAD_REQUEST, 

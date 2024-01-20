@@ -41,6 +41,9 @@ public class Transaction {
     @Column(name = "date")
     private Date date;
 
+    @Column(name = "type")
+    private String type;
+
     @Column(name = "createdOn")
     private Timestamp createdOn;
 
@@ -108,6 +111,13 @@ public class Transaction {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Timestamp getCreatedOn() {

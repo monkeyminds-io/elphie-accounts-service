@@ -66,8 +66,8 @@ public class Utiles {
         if(account.getUserId() == null) errors.add("User ID cannot be NULL.");
         if(account.getName() == null) errors.add("Account Name cannot be NULL.");
         if(account.getType() == null) errors.add("Account Type cannot be NULL.");
+        if(account.getIban() == null) errors.add("Account IBAN cannot be NUL.");
         if(account.getBalance() == null) errors.add("Account Balance cannot be NULL.");
-        if(account.getCurrency() == null) errors.add("Account Currency cannot be NULL.");
 
         // Return isValid value
         return errors;
@@ -84,6 +84,7 @@ public class Utiles {
         if(transaction.getReference() == null) errors.add("Reference cannot be NULL.");
         if(transaction.getAmount() == null) errors.add("Amount cannot be NULL.");
         if(transaction.getDate() == null) errors.add("Date cannot be NULL.");
+        if(transaction.getType() == null) errors.add("Type cannot be NULL.");
 
         // Return isValid value
         return errors;

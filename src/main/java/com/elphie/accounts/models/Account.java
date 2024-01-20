@@ -34,11 +34,11 @@ public class Account {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "balance")
-    private Integer balance;
+    @Column(name = "iban")
+    private String iban;
 
-    @Column(name = "currency")
-    private String currency;
+    @Column(name = "balance")
+    private Double balance;
 
     @Column(name = "plaidId")
     private String plaidId;
@@ -55,12 +55,12 @@ public class Account {
 
     // CONSTRUCTORS ////////////////
 
-    public Account(Long userId, String name, String type, Integer balance, String currency) {
+    public Account(Long userId, String name, String type, String iban, Double balance) {
         this.userId = userId;
         this.name = name;
         this.type = type;
+        this.iban = iban;
         this.balance = balance;
-        this.currency = currency;
     }
 
 
@@ -97,20 +97,20 @@ public class Account {
         this.type = type;
     }
 
-    public Integer getBalance() {
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
+
+    public Double getBalance() {
         return this.balance;
     }
 
-    public void setBalance(Integer balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public String getPlaidId() {

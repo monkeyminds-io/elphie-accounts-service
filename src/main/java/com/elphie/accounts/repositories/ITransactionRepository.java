@@ -1,7 +1,5 @@
 package com.elphie.accounts.repositories;
 
-import java.util.List;
-
 // =============================================================================
 // File Name: reposoitories/ITransactionRepository.java
 // File Description:
@@ -13,9 +11,13 @@ import java.util.List;
 // Imports
 // =============================================================================
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.elphie.accounts.models.Transaction;
+
+import java.util.Date;
+import java.util.List;
 
 // =============================================================================
 // Interface
@@ -24,4 +26,10 @@ import com.elphie.accounts.models.Transaction;
 public interface ITransactionRepository extends JpaRepository<Transaction, Long> {
     
     List<Transaction> findByUserIdAndReferenceContaining(Long userId, String query);
+    List<Transaction> findByUserIdAndDateBetween(Long userId, Date start, Date end);
+
+    // TODO Couldn't get this custom query to work... 😞
+    @Query(value="SELECT SUM(amount), date FROM Transactions t WHERE user_id = ?1 AND date BETWEEN ?2 AND ?3 GROUP BY date ORDER BY date ASC", nativeQuery = true)
+    List<Transaction> findTransactionsByUserIdBetweenDates(Long userId, Date start, Date end);
+
 }
